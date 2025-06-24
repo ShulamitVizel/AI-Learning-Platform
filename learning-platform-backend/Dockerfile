@@ -1,23 +1,18 @@
+# Dockerfile בתוך learning-platform-backend
 FROM node:20-alpine
-
-# התקנת ספריות דרושות
-RUN apk update && apk add --no-cache openssl libc6-compat
 
 WORKDIR /app
 
-# התקנת תלויות
 COPY package*.json ./
 RUN npm install
 
-# העתקת כל הפרויקט
 COPY . .
 
-# הרצת Prisma Generate כחלק מהבנייה!
+# ✅ בשורה הבאה חובה לציין את הנתיב המלא לסכמה:
 RUN npx prisma generate --schema=./src/prisma/schema.prisma
-
-# בניית TypeScript
+# ✅ בשורה הבאה חובה לציין את הנתיב המלא לקובץ ה-Seed:
+COPY seed.ts ./seed.ts
 RUN npm run build
 
-EXPOSE 5000
+CMD ["sh", "-c", "npx prisma migrate deploy --schema=./src/prisma/schema.prisma && npx ts-node seed.ts && node dist/index.js"]
 
-CMD ["npm", "start"]
