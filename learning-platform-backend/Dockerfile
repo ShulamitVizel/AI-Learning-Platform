@@ -1,18 +1,24 @@
-# Dockerfile בתוך learning-platform-backend
-FROM node:20-alpine
+FROM node:18-bullseye
 
 WORKDIR /app
 
+# התקנת תלויות מערכת
+RUN apt-get update && \
+    apt-get install -y openssl libssl1.1 netcat && \
+    rm -rf /var/lib/apt/lists/*
+
+# העתקת תלויות והתקנתן
 COPY package*.json ./
 RUN npm install
 
+# העתקת שאר הקוד
 COPY . .
 
-# ✅ בשורה הבאה חובה לציין את הנתיב המלא לסכמה:
-RUN npx prisma generate --schema=./src/prisma/schema.prisma
-# ✅ בשורה הבאה חובה לציין את הנתיב המלא לקובץ ה-Seed:
-COPY seed.ts ./seed.ts
+# בניית TypeScript (כולל יצירת dist/)
 RUN npm run build
 
-CMD ["sh", "-c", "npx prisma migrate deploy --schema=./src/prisma/schema.prisma && npx ts-node seed.ts && node dist/index.js"]
+# הפעלת Prisma generate לפני seed והרצת השרת
+COPY entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
 
+CMD ["sh", "./entrypoint.sh"]
