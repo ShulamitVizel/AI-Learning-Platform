@@ -1,10 +1,13 @@
 import { Router } from 'express';
-import { registerUser } from '../controllers/userController';
+import { registerUser, getAllUsers } from '../controllers/userController';
+import { protect, adminOnly } from '../middleware/authMiddleware';
 
 const router = Router();
 
+// רישום משתמש חדש
 router.post('/register', registerUser);
 
+// שליפת כל המשתמשים - למנהלים בלבד
+router.get('/', protect, adminOnly);
+
 export default router;
-// This file defines the user-related routes for the application.
-// It imports the necessary controller functions and sets up the routes for user registration.
