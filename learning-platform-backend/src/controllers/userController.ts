@@ -10,7 +10,7 @@ const generateToken = (userId: number, isAdmin: boolean) => {
 
 // POST /api/users/register
 export const registerUser = async (req: Request, res: Response) => {
-  const { name, phone } = req.body;
+  const { name, phone, isAdmin } = req.body; // הוספתי את isAdmin כמשתנה בקלט
 
   if (!name || !phone) {
     return res.status(400).json({ message: 'Name and phone are required' });
@@ -26,18 +26,18 @@ export const registerUser = async (req: Request, res: Response) => {
         data: {
           name,
           phone,
-          // isAdmin: false, // כברירת מחדל
+          isAdmin: isAdmin || false,  // אם לא הוגדר isAdmin, ערך ברירת המחדל יהיה false
         },
       });
     }
 
-    const token = generateToken(user.id, false);
+    const token = generateToken(user.id, user.isAdmin);
 
     res.status(201).json({
       id: user.id,
       name: user.name,
       phone: user.phone,
-      // isAdmin: user.isAdmin, // Remove if not in model
+      isAdmin: user.isAdmin,  // מחזיר את ה-isAdmin אם זה נדרש
       token,
     });
   } catch (error) {

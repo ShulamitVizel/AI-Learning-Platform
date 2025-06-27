@@ -8,11 +8,11 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  name     String
-  phone    String   @unique
-  isAdmin  Boolean  @default(false)
-  prompts  Prompt[]
+  id      Int      @id @default(autoincrement())
+  name    String
+  phone   String   @unique
+  isAdmin Boolean  @default(false)
+  prompts Prompt[]
 }
 
 model Category {

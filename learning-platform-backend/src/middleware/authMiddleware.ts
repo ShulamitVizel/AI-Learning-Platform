@@ -1,15 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-// הרחבה ל-Request כדי להכיל את user
-declare global {
-  namespace Express {
-    interface Request {
-      user?: { id: number; isAdmin: boolean };
-    }
-  }
-}
-
 // Middleware לבדיקה האם המשתמש מחובר
 export const protect = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
@@ -18,7 +9,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET || '') as {
         userId: number;
-        isAdmin: boolean;
+        isAdmin?: boolean;
       };
       req.user = { id: decoded.userId, isAdmin: decoded.isAdmin };
       next();
