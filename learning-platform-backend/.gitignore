@@ -1,0 +1,27 @@
+# תיקיית התלויות של Node.js
+node_modules/
+
+# תיקיית הפלט (למשל, build/ או dist/)
+dist/
+
+# קבצי סביבה - אין להעלות לקוד המקור
+.env
+.env.*
+!.env.example
+
+# קבצי לוג
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# קבצי TypeScript build info
+*.tsbuildinfo
+
+# תיקיות של IDE (למשל, VSCode או WebStorm)
+.vscode/
+.idea/
+
+# קבצי מערכת (Mac, Windows וכו')
+.DS_Store
+Thumbs.db
