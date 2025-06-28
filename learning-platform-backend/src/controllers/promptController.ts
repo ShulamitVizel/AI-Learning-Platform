@@ -52,3 +52,51 @@ export const getUserPrompts = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 };
+
+export const searchPrompts = async (req: Request, res: Response) => {
+  const { query, date } = req.query;
+
+  const whereClause: any = {};
+
+  if (query && typeof query === 'string') {
+    whereClause.OR = [
+      { prompt: { contains: query, mode: 'insensitive' } },
+      { response: { contains: query, mode: 'insensitive' } },
+    ];
+  }
+
+  if (date && typeof date === 'string') {
+    const parsedDate = new Date(date);
+    if (!isNaN(parsedDate.getTime())) {
+      const start = new Date(parsedDate);
+      start.setHours(0, 0, 0, 0);
+
+      const end = new Date(parsedDate);
+      end.setHours(23, 59, 59, 999);
+
+      whereClause.createdAt = {
+        gte: start,
+        lte: end,
+      };
+    }
+  }
+
+  try {
+    const results = await prisma.prompt.findMany({
+      where: whereClause,
+      include: {
+        user: true,
+        category: true,
+        subCategory: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.status(200).json(results);
+  } catch (error: any) {
+    console.error('Error in searchPrompts:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};

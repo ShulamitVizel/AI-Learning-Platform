@@ -11,9 +11,10 @@ model User {
   id      Int      @id @default(autoincrement())
   name    String
   phone   String   @unique
-  isAdmin Boolean  @default(false)
+  role    String   @default("user") // 🆕 במקום isAdmin
   prompts Prompt[]
 }
+
 
 model Category {
   id            Int           @id @default(autoincrement())

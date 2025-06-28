@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-// Middleware לבדיקה האם המשתמש מחובר
 export const protect = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {
@@ -9,9 +8,9 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET || '') as {
         userId: number;
-        isAdmin?: boolean;
+        role?: string;
       };
-      req.user = { id: decoded.userId, isAdmin: decoded.isAdmin };
+      req.user = { id: decoded.userId, role: decoded.role };
       next();
     } catch (err) {
       return res.status(401).json({ message: 'Not authorized, token failed' });
@@ -21,11 +20,10 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-// Middleware לבדיקה האם המשתמש הוא מנהל
-export const adminOnly = (req: Request, res: Response, next: NextFunction) => {
-  if (req.user?.isAdmin) {
+export const requireAdminByRole = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user?.role === 'admin') {
     next();
   } else {
-    return res.status(403).json({ message: 'Access denied: Admins only' });
+    res.status(403).json({ message: 'Access denied: Admins only' });
   }
 };

@@ -2,42 +2,39 @@ import { Request, Response } from 'express';
 import prisma from '../prisma/prismaClient';
 import jwt from 'jsonwebtoken';
 
-const generateToken = (userId: number, isAdmin: boolean) => {
-  return jwt.sign({ userId, isAdmin }, process.env.JWT_SECRET || 'secret', {
+const generateToken = (userId: number, role: string) => {
+  return jwt.sign({ userId, role }, process.env.JWT_SECRET || 'secret', {
     expiresIn: '7d',
   });
 };
 
-// POST /api/users/register
 export const registerUser = async (req: Request, res: Response) => {
-  const { name, phone, isAdmin } = req.body; // הוספתי את isAdmin כמשתנה בקלט
+  const { name, phone, role } = req.body;
 
   if (!name || !phone) {
     return res.status(400).json({ message: 'Name and phone are required' });
   }
 
   try {
-    // בדיקה אם קיים כבר משתמש עם אותו טלפון
     let user = await prisma.user.findFirst({ where: { phone } });
 
     if (!user) {
-      // יצירת משתמש חדש
       user = await prisma.user.create({
         data: {
           name,
           phone,
-          isAdmin: isAdmin || false,  // אם לא הוגדר isAdmin, ערך ברירת המחדל יהיה false
+          role: role || 'user',
         },
       });
     }
 
-    const token = generateToken(user.id, user.isAdmin);
+    const token = generateToken(user.id, user.role);
 
     res.status(201).json({
       id: user.id,
       name: user.name,
       phone: user.phone,
-      isAdmin: user.isAdmin,  // מחזיר את ה-isAdmin אם זה נדרש
+      role: user.role,
       token,
     });
   } catch (error) {
@@ -46,7 +43,6 @@ export const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-// GET /api/users/
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany({

@@ -4,6 +4,19 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Seeding database...');
 
+  // 🟢 יצירת משתמש אדמין לבדיקה
+  const admin = await prisma.user.upsert({
+    where: { phone: '0500000000' },
+    update: {},
+    create: {
+      name: 'Admin User',
+      phone: '0500000000',
+      role: 'admin',
+    },
+  });
+
+  console.log(`👤 Admin created: ${admin.name} (role: ${admin.role})`);
+
   const categories = [
     {
       name: 'Science',

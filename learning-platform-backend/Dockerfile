@@ -7,18 +7,17 @@ RUN apt-get update && \
     apt-get install -y openssl libssl1.1 netcat && \
     rm -rf /var/lib/apt/lists/*
 
-# העתקת תלויות והתקנתן
+# העתקת package.json והתקנת תלויות
 COPY package*.json ./
 RUN npm install
 
-# העתקת שאר הקוד
+# העתקת כל שאר הקבצים כולל src/, prisma/, entrypoint.sh
 COPY . .
 
-# בניית TypeScript (כולל יצירת dist/)
+# בניית TypeScript
 RUN npm run build
 
-# הפעלת Prisma generate לפני seed והרצת השרת
-COPY entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
+# הפיכת סקריפט ל־executable
+RUN chmod +x entrypoint.sh
 
-CMD ["sh", "./entrypoint.sh"]
+CMD ["./entrypoint.sh"]
