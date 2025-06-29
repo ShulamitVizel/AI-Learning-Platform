@@ -2,7 +2,6 @@
 
 echo "⏳ Waiting for DB..."
 
-# בדיקה אם הדאטאבייס מוכן
 until nc -z db 5432; do
   echo "❌ DB is unavailable - sleeping"
   sleep 1
@@ -10,15 +9,15 @@ done
 
 echo "✅ DB is up - continuing..."
 
-# יצירת לקוח prisma
-npx prisma generate
+# ניצור את Prisma Client לפי המיקום שלך
+npx prisma generate --schema=src/prisma/schema.prisma
 
-# הפעלת מיגרציות (מדריכה את Prisma ליצור את הטבלאות)
-npx prisma migrate deploy
+# נפעיל את המיגרציות לפי המיקום שלך
+npx prisma migrate deploy --schema=src/prisma/schema.prisma
 
-# מילוי נתוני דוגמה
-npx ts-node ./src/prisma/seed.ts
+# סיד נתונים
+npx ts-node src/prisma/seed.ts
 
-# הרצת השרת
+# נתחיל את השרת
 echo "🚀 Starting backend server"
-exec node dist/index.js  # שנה ל-server.js אם שם הקובץ שונה
+exec node dist/index.js

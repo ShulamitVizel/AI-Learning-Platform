@@ -1,3 +1,4 @@
+// ✅ src/middleware/authMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
@@ -20,7 +21,11 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export const requireAdminByRole = (req: Request, res: Response, next: NextFunction) => {
+export const requireAdminByRole = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   if (req.user?.role === 'admin') {
     next();
   } else {

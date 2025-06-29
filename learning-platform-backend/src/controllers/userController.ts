@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import prisma from '../prisma/prismaClient';
 import jwt from 'jsonwebtoken';
 
@@ -8,16 +8,18 @@ const generateToken = (userId: number, role: string) => {
   });
 };
 
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   const { name, phone, role } = req.body;
-
   if (!name || !phone) {
-    return res.status(400).json({ message: 'Name and phone are required' });
+    res.status(400).json({ message: 'Name and phone are required' });
+    return;
   }
-
   try {
     let user = await prisma.user.findFirst({ where: { phone } });
-
     if (!user) {
       user = await prisma.user.create({
         data: {
@@ -27,9 +29,7 @@ export const registerUser = async (req: Request, res: Response) => {
         },
       });
     }
-
     const token = generateToken(user.id, user.role);
-
     res.status(201).json({
       id: user.id,
       name: user.name,
@@ -43,13 +43,13 @@ export const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
-    const users = await prisma.user.findMany({
-      include: {
-        prompts: true,
-      },
-    });
+    const users = await prisma.user.findMany({ include: { prompts: true } });
     res.json(users);
   } catch (err) {
     console.error('Error fetching users:', err);

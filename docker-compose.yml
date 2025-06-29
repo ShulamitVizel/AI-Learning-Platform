@@ -14,14 +14,15 @@ services:
 
   backend:
     build: ./learning-platform-backend
-    env_file:
-      - ./learning-platform-backend/.env
     ports:
       - '5000:5000'
     depends_on:
       - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/learning-platform-backend
     volumes:
       - ./learning-platform-backend:/app
+      - /app/node_modules  # הגנה על node_modules שבתוך הקונטיינר
     restart: unless-stopped
 
   frontend:

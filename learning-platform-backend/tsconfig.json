@@ -8,10 +8,10 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "typeRoots": ["./src/types", "./node_modules/@types"]
-
   },
   "include": ["src", "prisma"]
 }
+
 // This configuration file is for a TypeScript project that compiles to ES6 and uses CommonJS modules.
 // It specifies the root directory for source files, the output directory for compiled files, and enables
 // strict type checking and interoperability with ES modules. It also skips type checking for library files.
