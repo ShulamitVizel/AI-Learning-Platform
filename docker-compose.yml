@@ -18,11 +18,11 @@ services:
       - '5000:5000'
     depends_on:
       - db
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/learning-platform-backend
+    env_file:
+      - .env
     volumes:
       - ./learning-platform-backend:/app
-      - /app/node_modules  # הגנה על node_modules שבתוך הקונטיינר
+      - /app/node_modules
     restart: unless-stopped
 
   frontend:

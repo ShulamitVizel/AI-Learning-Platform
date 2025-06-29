@@ -131,3 +131,19 @@ export const searchPrompts = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Server error', details: error.message });
   }
 };
+export const getAllPrompts = async (req: Request, res: Response) => {
+  try {
+    const prompts = await prisma.prompt.findMany({
+      include: {
+        user: true,
+        category: true,
+        subCategory: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    res.status(200).json(prompts);
+  } catch (error: any) {
+    res.status(500).json({ error: 'Failed to fetch prompts', details: error.message });
+  }
+};

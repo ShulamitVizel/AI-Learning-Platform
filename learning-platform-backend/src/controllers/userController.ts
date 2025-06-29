@@ -1,3 +1,4 @@
+// ✅ src/controllers/userController.ts
 import { Request, Response, NextFunction } from 'express';
 import prisma from '../prisma/prismaClient';
 import jwt from 'jsonwebtoken';
@@ -14,22 +15,34 @@ export const registerUser = async (
   next: NextFunction
 ): Promise<void> => {
   const { name, phone, role } = req.body;
+
   if (!name || !phone) {
     res.status(400).json({ message: 'Name and phone are required' });
     return;
   }
+
   try {
-    let user = await prisma.user.findFirst({ where: { phone } });
+    const trimmedPhone = phone.trim();
+    const trimmedName = name.trim();
+
+    let user = await prisma.user.findFirst({ where: { phone: trimmedPhone } });
+
     if (!user) {
       user = await prisma.user.create({
         data: {
-          name,
-          phone,
+          name: trimmedName,
+          phone: trimmedPhone,
           role: role || 'user',
         },
       });
+    } else {
+      console.log('ℹ️ User already exists. Returning existing user.');
     }
+
     const token = generateToken(user.id, user.role);
+    console.log('✅ Generated token for user ID', user.id);
+    console.log('TOKEN:', token);
+
     res.status(201).json({
       id: user.id,
       name: user.name,
@@ -37,9 +50,9 @@ export const registerUser = async (
       role: user.role,
       token,
     });
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ message: 'Server error' });
+  } catch (error: any) {
+    console.error('❌ Registration error:', error.message || error);
+    res.status(500).json({ message: 'Server error: ' + error.message });
   }
 };
 

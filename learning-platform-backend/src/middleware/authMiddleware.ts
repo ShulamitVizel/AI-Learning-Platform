@@ -11,6 +11,9 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
         userId: number;
         role?: string;
       };
+      // Log to check what role is being decoded
+      console.log("Decoded token:", decoded);
+
       req.user = { id: decoded.userId, role: decoded.role };
       next();
     } catch (err) {
@@ -26,6 +29,8 @@ export const requireAdminByRole = (
   res: Response,
   next: NextFunction
 ) => {
+  // Check if the role is 'admin' and log
+  console.log("User role:", req.user?.role);
   if (req.user?.role === 'admin') {
     next();
   } else {
