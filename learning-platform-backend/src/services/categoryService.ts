@@ -16,4 +16,3 @@ export const getSubCategoriesByCategoryId = async (categoryId: number) => {
   });
   return subCategories;
 };
-// פונקציה ליצירת קטגוריה חדשה

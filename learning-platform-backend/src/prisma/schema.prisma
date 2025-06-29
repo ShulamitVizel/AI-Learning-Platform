@@ -11,7 +11,7 @@ model User {
   id      Int      @id @default(autoincrement())
   name    String
   phone   String   @unique
-  role    String   @default("user") // 🆕 במקום isAdmin
+  role    String   @default("user")
   prompts Prompt[]
 }
 

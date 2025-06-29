@@ -11,28 +11,3 @@
   },
   "include": ["src", "prisma"]
 }
-
-// This configuration file is for a TypeScript project that compiles to ES6 and uses CommonJS modules.
-// It specifies the root directory for source files, the output directory for compiled files, and enables
-// strict type checking and interoperability with ES modules. It also skips type checking for library files.
-// The "include" field specifies the directories to include in the compilation process.
-// The "prisma" directory is included to ensure that Prisma schema files are recognized during the
-// compilation process, even though they are not TypeScript files.
-// This setup is typical for a Node.js backend application using TypeScript and Prisma for database management.
-// The "outDir" is set to "dist", which is a common convention for compiled output in TypeScript projects.
-// The "rootDir" is set to "src", indicating that the source code is located in the "src" directory.
-// The "skipLibCheck" option is used to skip type checking of declaration files, which can speed up the compilation process
-// and reduce unnecessary errors related to third-party libraries.
-// The "esModuleInterop" option allows for better compatibility with CommonJS modules, enabling the use of `import` statements for CommonJS modules.
-// The "strict" option enables all strict type-checking options, which helps catch potential errors early in the development process.
-//// This configuration is suitable for a modern TypeScript project that requires type safety and modularity,
-// making it easier to maintain and scale the codebase.
-// It is a good starting point for building a robust backend application using TypeScript and Prisma.
-// The configuration can be further customized based on specific project requirements,
-// such as adding paths for module resolution or configuring additional compiler options.
-// The "include" array can also be modified to include other directories or files as needed.
-// This setup is ideal for developers looking to leverage TypeScript's features in a Node.js environment
-// while using Prisma for database interactions, providing a solid foundation for building scalable and maintainable applications.
-// The configuration is designed to be flexible and can be adapted as the project evolves,
-// allowing developers to add new features or change the structure of the codebase without significant rework
-// to the TypeScript configuration.

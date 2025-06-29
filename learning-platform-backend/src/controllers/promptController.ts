@@ -141,9 +141,9 @@ export const getAllPrompts = async (req: Request, res: Response) => {
       },
       orderBy: { createdAt: 'desc' },
     });
-
     res.status(200).json(prompts);
   } catch (error: any) {
     res.status(500).json({ error: 'Failed to fetch prompts', details: error.message });
   }
 };
+

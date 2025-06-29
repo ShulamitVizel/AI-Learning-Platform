@@ -12,5 +12,3 @@ router.get('/:id/subcategories', getSubCategoriesByCategoryIdController);
 router.post('/', createCategory);
 router.post('/subcategories', createSubCategory);
 export default router;
-// This file defines the category-related routes for the application.
-// It imports the necessary controller functions and sets up the routes for retrieving all categories and subcategories

@@ -8,7 +8,7 @@ import userRoutes from './routes/userRoutes';
 import promptRoutes from './routes/promptRoutes';
 import categoryRoutes from './routes/categoryRoutes';
 
-import { errorHandler,notFoundHandler } from './middleware/errorMiddleware';
+import { errorHandler, notFoundHandler } from './middleware/errorMiddleware';
 
 const app = express();
 const port = process.env.PORT || 5000;
