@@ -107,14 +107,14 @@ API routes are documented using Swagger and available at:
 
 ## Admin Access
 To access the admin dashboard, log in with the following credentials:
-- **Username**: admin
-- **Password**: 123456.
+- **Username**: any-User-that-you-want
+- **Phone**: 0500000000.
 
 The admin user is created during development using a manual database seed.
 
 ## Assumptions and Notes
 - User authentication is implemented using JWT.
-- The default admin user (admin / 123456.) is seeded manually into the database.
+- The default admin user (any-User-that-you-want / 0500000000.) is seeded manually into the database.
 - No automated unit or integration tests are included; test coverage can be added in future iterations.
 - The application currently does not include pagination or filtering features.
 - The prompt-to-lesson interaction is based on real-time communication with the OpenAI API.
