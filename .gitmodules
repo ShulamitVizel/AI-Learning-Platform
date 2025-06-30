@@ -1,0 +1,3 @@
+[submodule "learning-platform-frontend"]
+	path = learning-platform-frontend
+	url = https://github.com/ShulamitVizel/learning-platform-frontend.git
