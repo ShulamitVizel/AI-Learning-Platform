@@ -1,5 +1,11 @@
 # AI Learning Platform - Mini MVP
 
+## Project Approach
+
+The AI Learning Platform project aims to create a full-stack application that allows users to learn by interacting with an AI engine. I used Node.js for the backend, React for the frontend, and PostgreSQL with Prisma ORM for database management. The project also includes OpenAI API integration to generate lessons based on user prompts. The platform has user and admin dashboards, and Docker was used to make setup and deployment easier.
+
+I approached the project in modular components to allow future scalability, separating the backend and frontend for maintainability. The goal was to ensure that the platform is easily extendable and user-friendly, while also following best practices for both code structure and application architecture.
+
 ## Overview
 
 This repository contains a full-stack implementation of a mini AI-driven learning platform. The platform allows users to register, select a learning topic by category and sub-category, submit a prompt to an AI engine, and receive a generated lesson. The platform also includes an admin dashboard for managing users and reviewing their learning history.
